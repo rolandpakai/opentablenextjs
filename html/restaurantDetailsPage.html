@@ -1,0 +1,138 @@
+<main className="bg-gray-100 min-h-screen w-screen">
+  <main className='max-w-screen-2xl m-auto bg-white'>
+    {/* NAVBAR */}
+    <nav className='bg-white p-2 flex justify-between'>
+      <a href="" className='font-bold text-gray-700 text-2xl'>
+        OpenTable
+      </a>
+      <div>
+        <div className='flex'>
+          <button className='bg-blue-400 text-white border p-1 px-4 mr-3 rounded'>Sign in</button>
+          <button className='text-gray-700 border p-1 px-4 rounded'>Sign up</button>
+        </div>
+      </div>
+    </nav>
+    {/* NAVBAR */}
+    {/* HEADER */}
+    <div className='h-96 overflow-hidden'>
+      <div className='bg-center h-full flex justify-center items-center bg-gradient-to-r from-[#0f1f47] to-[#5f6984]'>
+        <h1 className='text-7xl text-white capitalize text-center'>
+          DNB Budapest – Budapest Marriott Hotel
+        </h1>
+      </div>
+    </div>
+    {/* HEADER */}
+    {/* DESCRIPTION */}
+    <div className='flex m-auto w-2/3 justify-between items-start 0 -mt-11'>
+      <div className='bg-white w-[70%] rounded p-3 shadow'>
+       {/* RESTAURANT NAV */}
+        <nav className='flex text-reg border-b pb-2'>
+          <a href='' className='mr-7'>Overview</a>
+          <a href='' className='mr-7'>Menu</a>
+        </nav>
+       {/* RESTAURANT NAV */}
+       {/* TITLE */}
+       <div className='mt-4 border-b pb-6'>
+        <h1 className='font-bold text-6xl'>DNB Budapest</h1>
+       </div>
+       {/* TITLE */}
+       {/* RATINGS */}
+       <div className='flex items-end'>
+        <div className='ratings mt-2 flex items-center'>
+          <p>****</p>
+          <p className='text-req ml-3'>4.9</p>
+        </div>
+        <div>
+          <p className='text-reg ml-4'>600 Reviews</p>
+        </div>
+       </div>
+       {/* RATINGS */}
+       {/* DESC */}
+       <div className='mt-4'>
+        <p className='text-lg font-light'>
+          From the Black Forest, all the way to the Black Sea, DNB Budapest restaurant evokes diverse gastronomic traditions along its namesake, the Danube. Overlooking this magical flow of blue, DNB takes inspiration from the river’s various regions, sourcing the freshest ingredients locally to create an authentic and contemporary, culinary-cultural experience.
+        </p>
+       </div>
+       {/* DESC */}
+       {/* IMGS */}
+       <div>
+        <h1 className='font-bol text-3xl mt-10 mb-7 border-b pb-5'>
+          5 photos
+        </h1>
+        <div className='flex flex-wrap'>
+          <img src='https://resizer.otstatic.com/v2/photos/xlarge/2/27210517.webp' alt='' className='w-56 h-44 mr-1 mb-1' />
+          <img src='https://resizer.otstatic.com/v2/photos/xlarge/2/27210518.webp' alt='' className='w-56 h-44 mr-1 mb-1' />
+          <img src='https://resizer.otstatic.com/v2/photos/xlarge/2/27210519.webp' alt='' className='w-56 h-44 mr-1 mb-1' />
+          <img src='https://resizer.otstatic.com/v2/photos/xlarge/2/27210523.webp' alt='' className='w-56 h-44 mr-1 mb-1' />
+          <img src='https://resizer.otstatic.com/v2/photos/xlarge/3/31883664.webp' alt='' className='w-56 h-44 mr-1 mb-1' />
+        </div>
+       </div>
+       {/* IMGS */}
+       {/* REVIEWS */}
+        <div>
+          <h1 className='font-bold text-3xl mt-10 mb-7 border-b pb-5'>
+            What 87 people are saying
+          </h1>
+          <div>
+            {/* REVIEW CARD */}
+            <div className='border-b pb-7 mb-7'>
+              <div className='flex'>
+                <div className='w-1/6 flex flex-col items-center'>
+                  <div className='rounded-full bg-blue-400 w-16 h-16 flex items-center justify-center'>
+                    <div className='text-white text-2xl'>MC</div>
+                  </div>
+                  <p className='text-center'>MariaC</p>
+                </div>
+                <div className='ml-10 w-5/6'>
+                  <div className='flex items-center'>
+                    <div className='flex mr-5'>*****</div>
+                  </div>
+                  <div className='mt-5'>
+                    <p className='text-lg font-light'>
+                      Steak was delicious. Service was prompt and courteous. Lovely view of the Danube. Seemed reasonably priced as hotel restaurants go. It was a pleasant surprise as we found ourselves unable to get a reservation elsewhere on a busy Saturday night.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* REVIEW CARD */}
+          </div>
+        </div>
+       {/* REVIEWS */}
+      </div>
+      {/* RESERVATION */}
+      <div className='w-[27%] relative text-reg'>
+        <div className='fixed w-[15%] bg-white rounded p-3 shadow'>
+          <div className='text-center border-b pb-2 font-bold'>
+            <h4 className='mr-7 text-lg'>Make a reservation</h4>
+          </div>
+          <div className='my-3 flex-col'>
+            <label htmlFor=''>Party size</label>
+            <select name='' className='py-3 border-b font-light' >
+              <option value=''>1 person</option>
+              <option value=''>2 people</option>
+            </select>
+          </div>
+          <div className='flex justify-between'>
+            <div className='flex flex-col w-[48%]'>
+              <label htmlFor=''>Date</label>
+              <input type='text' className='py-3 border-b font-light w-28'/>
+            </div>
+            <div className='flex flex-col w-[48%]'>
+              <label htmlFor=''>Time</label>
+              <select className='py-3 border-b font-light'>
+                <option value=''>7:30 AM</option>
+                <option value=''>9:30 AM</option>
+              </select>
+            </div>
+          </div>
+          <div className='mt-5 '>
+            <button className='bg-red-600 rounded w-full text-white font-bold h-16'>Find a Time</button>
+          </div>
+        </div>
+      </div>
+      {/* RESERVATION */}
+    </div>
+    {/* DESCRIPTION */}
+  </main>
+</main>
