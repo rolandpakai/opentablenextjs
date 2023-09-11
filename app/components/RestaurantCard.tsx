@@ -1,13 +1,21 @@
 import Link from 'next/link';
+import { RestaurantCardType } from '../page';
+import Price from './Price';
 
-export default function RestaurantCard() {
+interface Props {
+  restaurant: RestaurantCardType
+}
+
+export default function RestaurantCard({restaurant} : Props) {
 
   return (
     <div className='w-64 h-72 m-3 rounded overflow-hidden border cursor-pointer'>
-    <Link href='/restaurant/test'>
-      <img src='https://resizer.otstatic.com/v2/photos/wide-huge/3/52275868.webp' alt='' className='w-full h-36' />
+    <Link href={`/restaurant/${restaurant.slug}`}>
+      <img src={restaurant.main_image} alt='' className='w-full h-36' />
       <div className='p-1'>
-        <h3 className='font-bold text-2xl mb-2 text-ellipsis whitespace-nowrap overflow-hidden'>Budapest Marriott Hotel</h3>
+        <h3 className='font-bold text-2xl mb-2 text-ellipsis whitespace-nowrap overflow-hidden'>
+          {restaurant.name}
+        </h3>
         <div className='flex items-start'>
           <div className='flex mb-2'>
             ****
@@ -15,9 +23,9 @@ export default function RestaurantCard() {
           <p className='ml-2'>77 reviews</p>
         </div>
         <div className='flex text-reg font-light capitalize'>
-          <p className='mr-3'>Hungarian</p>
-          <p className='mr-3'>$$$</p>
-          <p>Budapest</p>
+          <p className='mr-3'>{restaurant.cuisine.name}</p>
+          <Price price={restaurant.price}/>
+          <p>{restaurant.location.name}</p>
         </div>
         <p className='text-sm mt-1 font-bold'>Booked 3 times today</p>
       </div>
