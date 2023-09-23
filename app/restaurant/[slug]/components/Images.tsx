@@ -8,6 +8,7 @@ export default function Images({images}: {images: string[]}) {
       <div className='flex flex-wrap'>
         {images.map(image => (
           <img 
+            key={image}
             className="w-56 h-44 mr-1 mb-1" 
             src={image}
             alt=""
