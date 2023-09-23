@@ -8,10 +8,11 @@ export default function SearchBar() {
   const [location, setLocation] = useState('');
 
   const searchButtonClickHandler = () => {
-    if (location === 'banana') 
+    if (location === '') 
       return;
 
-    router.push('/search');
+    router.push(`/search?city=${location}`);
+    setLocation("");
   }
   
   return (

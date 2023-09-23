@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { calculateReviewRatingAverage } from '../../utils/calculateReviewRatingAverage';
 import { RestaurantCardType } from '../page';
 import Price from './Price';
+import Stars from './Stars';
 
 interface Props {
   restaurant: RestaurantCardType
@@ -18,9 +20,10 @@ export default function RestaurantCard({restaurant} : Props) {
         </h3>
         <div className='flex items-start'>
           <div className='flex mb-2'>
-            ****
+            <Stars reviews={restaurant.reviews}/>
           </div>
-          <p className='ml-2'>77 reviews</p>
+          <p className='text-req ml-3'>{calculateReviewRatingAverage(restaurant.reviews).toFixed(1)}</p>
+          <p className='ml-2'>{restaurant.reviews.length} review(s)</p>
         </div>
         <div className='flex text-reg font-light capitalize'>
           <p className='mr-3'>{restaurant.cuisine.name}</p>
