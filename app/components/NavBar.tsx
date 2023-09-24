@@ -1,6 +1,5 @@
-"use client"
-
 import Link from 'next/link';
+import LoginModal from './LoginModal';
 
 export default function NavBar() {
 
@@ -11,8 +10,8 @@ export default function NavBar() {
     </Link>
     <div>
       <div className='flex'>
-        <button className='bg-blue-400 text-white border p-1 px-4 mr-3 rounded'>Sign in</button>
-        <button className='text-gray-700 border p-1 px-4 rounded'>Sign up</button>
+        <LoginModal isSignIn={true} />
+        <LoginModal isSignIn={false} />
       </div>
     </div>
   </nav>
