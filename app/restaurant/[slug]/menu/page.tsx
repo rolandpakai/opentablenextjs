@@ -1,4 +1,5 @@
 import { Item, PrismaClient } from '@prisma/client';
+import { notFound } from 'next/navigation';
 import Menu from '../components/Menu';
 import RestaurantNavBar from '../components/RestaurantNavBar';
 
@@ -15,7 +16,7 @@ const fetchRestaurantMenu = async (slug: string): Promise<Item[]> => {
   });
 
   if (!restaurant) {
-    throw new Error("Can not find restaurant");
+    notFound();
   }
 
   return restaurant.items;
