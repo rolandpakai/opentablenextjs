@@ -15,7 +15,7 @@ const fetchRestaurantMenu = async (slug: string): Promise<Item[]> => {
   });
 
   if (!restaurant) {
-    throw new Error();
+    throw new Error("Can not find restaurant");
   }
 
   return restaurant.items;
