@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import AuthModalInputs from './AuthModalInputs';
+import useAuth from "../../hooks/useAuth"
 
 export type InputsType = {
   firstName: string;
@@ -40,15 +41,43 @@ export default function AuthModal({isSignIn}: {isSignIn: boolean}) {
   };
   
   const [open, setOpen] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [inputs, setInputs] = useState<InputsType>(initInputs);
+  const { signin } = useAuth();
 
   const handleChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs({
       ...inputs,
       [e.target.name]: e.target.value,
     });
+  }
+
+  useEffect(() => {
+    if (isSignIn) {
+      if (inputs.password && inputs.email) {
+        return setDisabled(false);
+      }
+    } else {
+      if (inputs.password && 
+        inputs.email && 
+        inputs.firstName && 
+        inputs.lastName && 
+        inputs.city &&
+        inputs.phone
+      ) {
+        return setDisabled(false);
+      }
+    }
+
+    setDisabled(true);
+  }, [inputs]);
+
+  const handleClick = () => {
+    if (isSignIn) {
+      signin({email: inputs.email, password: inputs.password});
+    }
   }
 
   return (
@@ -81,7 +110,10 @@ export default function AuthModal({isSignIn}: {isSignIn: boolean}) {
                 isSignIn={isSignIn}
                 handleChangeInputs={handleChangeInputs}
               />
-              <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400">
+              <button 
+                onClick={handleClick}
+                disabled={disabled} 
+                className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400">
                 {renderContent(isSignIn, "Sign In", "Create Account")}
               </button>
             </div>
