@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthenticationContext } from "../app/context/AuthContext";
 
 const useAuth = () => {
-  const { data, error, loading, setAuthState } = useContext(AuthenticationContext);
+  const { setAuthState } = useContext(AuthenticationContext);
 
   const signin = async (
     {email, password}: {email: string, password: string},
@@ -23,7 +23,7 @@ const useAuth = () => {
     } catch (error: any) {
       setAuthState({ data: null, error: error.response.data.errorMessage, loading: false });
     }
-  }
+  };
 
   const signup = async (
     {
@@ -61,13 +61,28 @@ const useAuth = () => {
     } catch (error: any) {
       setAuthState({ data: null, error: error.response.data.errorMessage, loading: false });
     }
-  }
+  };
+
+  const signout = () => {
+    removeCookies("jwt");
+
+    setAuthState({ 
+      data: null, 
+      error: null, 
+      loading: false 
+    });
+  };
 
   return {
     signin,
     signup,
+    signout,
   }
 }
 
 
 export default useAuth;
+
+function removeCookies(arg0: string) {
+  throw new Error("Function not implemented.");
+}
