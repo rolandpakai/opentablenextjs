@@ -24,10 +24,6 @@ export const partySize = [
     label: "6 people",
   },
   {
-    value: 2,
-    label: "2 people",
-  },
-  {
     value: 7,
     label: "7 people",
   },
