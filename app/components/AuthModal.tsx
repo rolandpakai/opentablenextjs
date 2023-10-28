@@ -1,10 +1,12 @@
 "use client"
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import AuthModalInputs from './AuthModalInputs';
 import useAuth from "../../hooks/useAuth"
+import { AuthenticationContext } from '../context/AuthContext';
+import { Alert, CircularProgress } from '@mui/material';
 
 export type InputsType = {
   firstName: string;
@@ -40,12 +42,13 @@ export default function AuthModal({isSignIn}: {isSignIn: boolean}) {
     password: "",
   };
   
+  const { data, error, loading } = useContext(AuthenticationContext);
   const [open, setOpen] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [inputs, setInputs] = useState<InputsType>(initInputs);
-  const { signin } = useAuth();
+  const { signin, signup } = useAuth();
 
   const handleChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs({
@@ -76,7 +79,9 @@ export default function AuthModal({isSignIn}: {isSignIn: boolean}) {
 
   const handleClick = () => {
     if (isSignIn) {
-      signin({email: inputs.email, password: inputs.password});
+      signin({email: inputs.email, password: inputs.password}, handleClose);
+    } else  {
+      signup(inputs, handleClose);
     }
   }
 
@@ -95,7 +100,17 @@ export default function AuthModal({isSignIn}: {isSignIn: boolean}) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          {loading ? (
+            <div className="py-24 px-2 h-[600px] flex justify-center">
+             <CircularProgress />
+            </div>
+          ) : (
           <div className="p-2 h-[600px]">
+            {error ? (
+              <Alert severity="error" className="mb-4">
+                { error }
+              </Alert>
+            ) : null}
             <div className="uppercase font-bold text-center pb-2 border-b mb-2">
               <p className="text-sm">
                 {renderContent(isSignIn, "Sign In", "Create Account")}
@@ -118,6 +133,7 @@ export default function AuthModal({isSignIn}: {isSignIn: boolean}) {
               </button>
             </div>
           </div>
+          )}
         </Box>
       </Modal>
     </div>
