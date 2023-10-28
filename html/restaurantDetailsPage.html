@@ -107,20 +107,20 @@
             <h4 className='mr-7 text-lg'>Make a reservation</h4>
           </div>
           <div className='my-3 flex-col'>
-            <label htmlFor=''>Party size</label>
-            <select name='' className='py-3 border-b font-light' >
+            <label htmlFor='partySelect'>Party size</label>
+            <select id='partySelect' name='' className='py-3 border-b font-light' >
               <option value=''>1 person</option>
               <option value=''>2 people</option>
             </select>
           </div>
           <div className='flex justify-between'>
             <div className='flex flex-col w-[48%]'>
-              <label htmlFor=''>Date</label>
-              <input type='text' className='py-3 border-b font-light w-28'/>
+              <label htmlFor='reservationDate'>Date</label>
+              <input id='reservationDate' type='text' className='py-3 border-b font-light w-28'/>
             </div>
             <div className='flex flex-col w-[48%]'>
-              <label htmlFor=''>Time</label>
-              <select className='py-3 border-b font-light'>
+              <label htmlFor='reservationTime'>Time</label>
+              <select id='reservationTime' className='py-3 border-b font-light'>
                 <option value=''>7:30 AM</option>
                 <option value=''>9:30 AM</option>
               </select>

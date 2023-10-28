@@ -18,8 +18,8 @@ export default function ReservationCard() {
         <h4 className='mr-7 text-lg'>Make a reservation</h4>
       </div>
       <div className='my-3 flex-col'>
-        <label htmlFor=''>Party size</label>
-        <select name='' className='py-3 border-b font-light' >
+        <label htmlFor='partySize'>Party size2</label>
+        <select id='partySize' className='py-3 border-b font-light' >
           {partySize.map(size => (
             <option key={size.value} value={size.value}>{size.label}</option>
           ))}
@@ -27,9 +27,10 @@ export default function ReservationCard() {
       </div>
       <div className='flex justify-between'>
         <div className='flex flex-col w-[48%]'>
-          <label htmlFor=''>Date</label>
+          <label htmlFor='reservationDate'>Date</label>
           <DatePicker 
-            className="py-3 border-b font-light text-reg w-28"
+            id="reservationDate"
+            className="py-3 border-b font-light text-reg w-24"
             dateFormat={"MMMM d"}
             wrapperClassName="w-[48%]"
             selected={selectedDate} 
@@ -37,8 +38,8 @@ export default function ReservationCard() {
           />
         </div>
         <div className='flex flex-col w-[48%]'>
-          <label htmlFor=''>Time</label>
-          <select className='py-3 border-b font-light'>
+          <label htmlFor='reservationTime'>Time</label>
+          <select id='reservationTime' className='py-3 border-b font-light'>
             <option value=''>7:30 AM</option>
             <option value=''>9:30 AM</option>
           </select>
