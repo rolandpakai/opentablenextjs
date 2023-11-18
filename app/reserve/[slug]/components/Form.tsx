@@ -23,6 +23,7 @@ export default function Form({
     bookerRequest: "",
   });
   const { loading, error, createReservation } = useReservation();
+  const [didBook, setDidBook] = useState<boolean>(false);
   const [day, time] = date.split('T');
 
   useEffect(() => {
@@ -51,71 +52,81 @@ export default function Form({
       partySize, 
       day, 
       time,
+      setDidBook,
     });
   }
 
   return (
     <div className="mt-10 flex flex-wrap justify-between w-[660px]">
-      <input
-        type="text"
-        name="bookerFirstName"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="First name"
-        value={inputs.bookerFirstName}
-        onChange={handleChangeInputs}
-      />
-      <input
-        type="text"
-        name="bookerLastName"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Last name"
-        value={inputs.bookerLastName}
-        onChange={handleChangeInputs}
-      />
-      <input
-        type="text"
-        name="bookerPhone"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Phone number"
-        value={inputs.bookerPhone}
-        onChange={handleChangeInputs}
-      />
-      <input
-        type="text"
-        name="bookerEmail"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Email"
-        value={inputs.bookerEmail}
-        onChange={handleChangeInputs}
-      />
-      <input
-        type="text"
-        name="bookerOccasion"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Occasion (optional)"
-        value={inputs.bookerOccasion}
-        onChange={handleChangeInputs}
-      />
-      <input
-        type="text"
-        name="bookerRequest"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Requests (optional)"
-        value={inputs.bookerRequest}
-        onChange={handleChangeInputs}
-      />
-      <button
-        className="bg-red-600 w-full p-3 text-white font-bold rounded disabled:bg-gray-300"
-        disabled={disabled || loading}
-        onClick={handleClick}
-      >
-        { loading ? <CircularProgress color="inherit" /> : "Complete reservation" }
-      </button>
-      <p className="mt-4 text-sm">
-        By clicking “Complete reservation” you agree to the OpenTable Terms
-        of Use and Privacy Policy. Standard text message rates may apply.
-        You may opt out of receiving text messages at any time.
-      </p>
-    </div>
+    { didBook ? (
+      <div>
+        <h1>You are all booked up</h1>
+        <p>Enjoy your reservation</p>
+      </div>
+    ) : (
+      <>
+        <input
+          type="text"
+          name="bookerFirstName"
+          className="border rounded p-3 w-80 mb-4"
+          placeholder="First name"
+          value={inputs.bookerFirstName}
+          onChange={handleChangeInputs}
+        />
+        <input
+          type="text"
+          name="bookerLastName"
+          className="border rounded p-3 w-80 mb-4"
+          placeholder="Last name"
+          value={inputs.bookerLastName}
+          onChange={handleChangeInputs}
+        />
+        <input
+          type="text"
+          name="bookerPhone"
+          className="border rounded p-3 w-80 mb-4"
+          placeholder="Phone number"
+          value={inputs.bookerPhone}
+          onChange={handleChangeInputs}
+        />
+        <input
+          type="text"
+          name="bookerEmail"
+          className="border rounded p-3 w-80 mb-4"
+          placeholder="Email"
+          value={inputs.bookerEmail}
+          onChange={handleChangeInputs}
+        />
+        <input
+          type="text"
+          name="bookerOccasion"
+          className="border rounded p-3 w-80 mb-4"
+          placeholder="Occasion (optional)"
+          value={inputs.bookerOccasion}
+          onChange={handleChangeInputs}
+        />
+        <input
+          type="text"
+          name="bookerRequest"
+          className="border rounded p-3 w-80 mb-4"
+          placeholder="Requests (optional)"
+          value={inputs.bookerRequest}
+          onChange={handleChangeInputs}
+        />
+        <button
+          className="bg-red-600 w-full p-3 text-white font-bold rounded disabled:bg-gray-300"
+          disabled={disabled || loading}
+          onClick={handleClick}
+        >
+          { loading ? <CircularProgress color="inherit" /> : "Complete reservation" }
+        </button>
+        <p className="mt-4 text-sm">
+          By clicking “Complete reservation” you agree to the OpenTable Terms
+          of Use and Privacy Policy. Standard text message rates may apply.
+          You may opt out of receiving text messages at any time.
+        </p>
+      </>
+    )}
+  </div>
   )
 }
