@@ -1,112 +1,65 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from '@prisma/client';
-import { times } from "../../../../data";
+import { findAvailableTables } from "../../../../services/restaurant/findAvailableTables";
 
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) { 
-  const {slug, day, time, partySize} = req.query as {
-    slug: string;
-    day: string;
-    time: string;
-    partySize: string;
-  };
+  if (req.method === "GET") {
+    const {slug, day, time, partySize} = req.query as {
+      slug: string;
+      day: string;
+      time: string;
+      partySize: string;
+    };
 
-  if (!day || !time || !partySize) {
-    return res.status(400).json({
-      errorMessage: "Invalid data provided"
-    });
-  }
-
-  const searchTimes = times.find(t => {
-    return t.time === time
-  })?.searchTimes;
-
-  if (!searchTimes) {
-    return res.status(400).json({
-      errorMessage: "Invalid data provided"
-    });
-  }
-
-  const bookings = await prisma.booking.findMany({
-    where: {
-      booking_time: {
-        gte: new Date(`${day}T${searchTimes[0]}`),
-        lte: new Date(`${day}T${searchTimes[searchTimes.length - 1]}`),
-      }
-    },
-    select: {
-      number_of_people: true,
-      booking_time: true,
-      tables: true,
+    if (!day || !time || !partySize) {
+      return res.status(400).json({
+        errorMessage: "Invalid data provided"
+      });
     }
-  });
 
-  const bookingTables: { [key: string]: {[key: number]: true} } = {};
+    const restaurant = await prisma.restaurant.findUnique({
+      where: {
+        slug,
+      },
+      select: {
+        tables: true,
+        open_time: true,
+        close_time: true,
+      }
+    });
 
-  bookings.forEach(booking => {
-    bookingTables[booking.booking_time.toISOString()] = booking.tables.reduce((obj, table) => {
+    if (!restaurant) {
+      return res.status(400).json({
+        errorMessage: "Restaurant not found",
+      });
+    }
+
+    const searchTimesWithTables = await findAvailableTables({restaurant, day, time, res});
+
+    if (!searchTimesWithTables) {
+      return res.status(400).json({
+        errorMessage: "Invalid data provided"
+      });
+    }
+
+    const availabilities = searchTimesWithTables.map(t => {
+      const sumSeats = t.tables.reduce((sum, table) =>{
+        return sum + table.seats
+      }, 0);
+
       return {
-        ...obj,
-        [table.table_id]: true,
+        time: t.time,
+        available: sumSeats >= parseInt(partySize, 10),
       }
-    }, {});
-  });
-
-  const restaurant = await prisma.restaurant.findUnique({
-    where: {
-      slug
-    },
-    select: {
-      tables: true,
-      open_time: true,
-      close_time: true,
-    }
-  });
-
-  if (!restaurant) {
-    return res.status(400).json({
-      errorMessage: "Invalid data provided"
+    }).filter(availability => {
+      const timeIsAfterOpeningHour = new Date(`${day}T${availability.time}`) >= new Date(`${day}T${restaurant.open_time}`);
+      const timeIsBeforeOpeningHour = new Date(`${day}T${availability.time}`) <= new Date(`${day}T${restaurant.close_time}`);
+    
+      return timeIsAfterOpeningHour && timeIsBeforeOpeningHour;
     });
-  }
 
-  const tables = restaurant.tables;
-
-  const searchTimesWithTables = searchTimes.map(searchTime => {
-    return {
-      date: new Date(`${day}T${searchTime}`),
-      time: searchTime,
-      tables,
-    }
-  });
-
-  searchTimesWithTables.forEach(t => {
-    t.tables = t.tables.filter(table => {
-      if (bookingTables[t.date.toISOString()]) {
-        if (bookingTables[t.date.toISOString()][table.id]) {
-          return false;
-        } else {
-          return true;
-        }
-      }
-    });
-  });
-
-  const availabilities = searchTimesWithTables.map(t => {
-    const sumSeats = t.tables.reduce((sum, table) =>{
-      return sum + table.seats
-    }, 0);
-
-    return {
-      time: t.time,
-      available: sumSeats >= parseInt(partySize, 10),
-    }
-  }).filter(availability => {
-    const timeIsAfterOpeningHour = new Date(`${day}T${availability.time}`) >= new Date(`${day}T${restaurant.open_time}`);
-    const timeIsBeforeOpeningHour = new Date(`${day}T${availability.time}`) <= new Date(`${day}T${restaurant.close_time}`);
-  
-    return timeIsAfterOpeningHour && timeIsBeforeOpeningHour;
-  });
-
-  return res.json(availabilities);
+    return res.json(availabilities);
+  } 
 }
